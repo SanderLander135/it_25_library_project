@@ -6,6 +6,13 @@ def validate_book_input(title: str, author: str, year_text: str, genre: str) -> 
     year_text = year_text.strip()
     genre = genre.strip()
 
+    def validate_book_data(data):
+        if not data['title'] or not data['author']:
+            return False, "Pealkiri ja autor ei tohi olla tühjad"
+        if not str(data['year']).isdigit() or int(data['year']) < 0:
+            return False, "Aasta peab olema positiivne number"
+        return True, ""
+
     if not title:
         return False, "Pealkiri on kohustuslik."
     if not author:
