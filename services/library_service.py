@@ -48,6 +48,17 @@ class LibraryService:
 
         return False, "Valitud raamatut ei leitud."
 
+    def search_books(self, title=None, author=None, year=None):
+        results = self.books
+        if title:
+            results = [b for b in results if title.lower() in b.title.lower()]
+        if author:
+            results =  [b for b in results if author.lower() in b.author.lower()]
+        if year:
+            results = [b for b in results if b.year == year]
+        return results
+
+
     def toggle_book_status(self, book_id: int) -> tuple[bool, str]:
         """Vahetab raamatu staatuse kohal ja väljas vahel."""
         book = self.find_by_id(book_id)
