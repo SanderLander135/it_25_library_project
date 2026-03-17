@@ -30,6 +30,33 @@ class LibraryApp:
         """Käivitab Tkinteri põhisilmuse."""
         self.root.mainloop()
 
+    def delete_selected_book(self):
+        selected_book = self.get_selected_book()
+        if selected_book:
+            self.library_service.delete_book(selected_book.id)
+            self.refresh_list()
+
+    import tkinter.messagebox as messagebox
+
+    def delete_selected_book_with_confirm(self):
+        selected_book = self.get_selected_book()
+        if not selected_book:
+            return
+        message = (
+            f"kas oled kindel, et soovid kustutada raamatu:\n"
+            f"'{selected_book.title}'?"
+        )
+        confirm = messagebox.askyesno(
+            title="kinnita kustutamine",
+            message=message,
+        )
+
+        if confirm:
+            self.library_service.delete_book(selected_book.id)
+            self.refresh_list()
+
+
+
     def add_book(self) -> None:
         """Lisab vormilt saadud andmete põhjal uue raamatu."""
         title, author, year_text, genre = self.form_panel.get_book_form_data()
@@ -43,7 +70,7 @@ class LibraryApp:
 
         messagebox.showerror("Viga", message)
 
-    def delete_selected_book(self) -> None:
+    def delete_selected_book2(self) -> None:
         """Kustutab parajasti valitud raamatu."""
         book_id = self.list_panel.get_selected_book_id()
         if book_id is None:
