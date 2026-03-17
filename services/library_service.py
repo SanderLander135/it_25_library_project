@@ -48,7 +48,7 @@ class LibraryService:
 
         return False, "Valitud raamatut ei leitud."
 
-    def search_books(self, title=None, author=None, year=None):
+    def search_books2(self, title=None, author=None, year=None):
         results = self.books
         if title:
             results = [b for b in results if title.lower() in b.title.lower()]
@@ -57,6 +57,13 @@ class LibraryService:
         if year:
             results = [b for b in results if b.year == year]
         return results
+    def get_statistics(self):
+        total_books = len(self.books)
+        authors_count = {}
+        for book in self.books:
+            authors_count[book.author] = authors_count.get(book.author, 0) + 1
+        return {"total": total_books, "authors_count": authors_count}
+
 
 
     def toggle_book_status(self, book_id: int) -> tuple[bool, str]:
