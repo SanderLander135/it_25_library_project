@@ -1,4 +1,5 @@
 from __future__ import annotations
+import csv
 
 from models.book import Book
 from services.validators import validate_book_input
@@ -64,7 +65,12 @@ class LibraryService:
             authors_count[book.author] = authors_count.get(book.author, 0) + 1
         return {"total": total_books, "authors_count": authors_count}
 
-
+    def export_books(self, file_path):
+        with open(file_path, 'w', newline='', encoding='utf-8') as f:
+            writer = csv.writer(f)
+            writer.writerow(['ID', 'Title', 'Author', 'Year'])
+            for b in self.books:
+                writer.writerow([b.id, b.title, b.author, b.year])
 
     def toggle_book_status(self, book_id: int) -> tuple[bool, str]:
         """Vahetab raamatu staatuse kohal ja väljas vahel."""
